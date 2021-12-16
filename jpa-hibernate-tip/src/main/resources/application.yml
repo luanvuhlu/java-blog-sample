@@ -1,0 +1,31 @@
+server:
+  port: 0
+logging:
+  level:
+    '[root]': INFO
+    '[org.springframework]': INFO
+    '[org.hibernate.SQL]': DEBUG
+    '[org.hibernate.engine.internal.StatisticalLoggingSessionEventListener]': INFO
+spring:
+  jpa:
+    properties:
+      hibernate:
+        '[generate_statistics]': 'true'
+        '[order_inserts]': 'true'
+        '[order_updates]': 'true'
+        '[format_sql]': 'false'
+        '[use_sql_comments]': 'true'
+    hibernate:
+      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: none
+    database: mysql
+    show-sql: 'true'
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.xml
+    enabled: 'true'
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: jpa
+    username: jpa
+    url: jdbc:mysql://localhost:3060/jpa?useSSL=false&serverTimezone=UTC
+
