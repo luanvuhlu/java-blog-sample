@@ -1,15 +1,11 @@
 package com.luanvv.jpa.tips.jpahibernatetip.entity;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.util.Set;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,6 +31,30 @@ public class Book {
   @Column(name = "TITLE")
   private String title;
 
+  @Column(name = "AVERAGE_RATING")
+  private BigDecimal averageRating;
+
+  @Column(name = "ISBN")
+  private String isbn;
+
+  @Column(name = "ISBN13")
+  private String isbn13;
+
+  @Column(name = "LANGUAGE_CODE")
+  private String lanuageCode;
+
+  @Column(name = "NUM_PAGES")
+  private Long numPages;
+
+  @Column(name = "RATINGS_COUNT")
+  private Long ratingCount;
+
+  @Column(name = "PUBLICATION_DATE")
+  private LocalDate publicationDate;
+
+  @Column(name = "PUBLISHER")
+  private String publisher;
+
   @CreatedDate
   @Column(name = "CREATED_DATE")
   private LocalDateTime createdDate;
@@ -43,12 +63,8 @@ public class Book {
   @Column(name = "LAST_MODIFIED_DATE")
   private LocalDateTime lastModifiedDate;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "AUTHOR_ID", nullable = true)
-  private Author author;
+  @OneToMany(mappedBy = "book")
+  @JoinColumn(name = "AUTHORS_ID")
+  private Set<AuthorBook> authors;
 
-  public Book(String title, Author author) {
-    this.title = title;
-    this.author = author;
-  }
 }

@@ -42,7 +42,7 @@ public class Author {
   private LocalDateTime lastModifiedDate;
 
   @OneToMany(mappedBy = "author")
-  private Set<Book> books;
+  private Set<AuthorBook> authorBooks;
 
   public Author(String name) {
     this.name = name;
