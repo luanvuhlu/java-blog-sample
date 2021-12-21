@@ -3,6 +3,7 @@ package com.luanvv.jpa.tips.jpahibernatetip.bootstrap;
 import com.luanvv.jpa.tips.jpahibernatetip.entity.Author;
 import com.luanvv.jpa.tips.jpahibernatetip.entity.AuthorBook;
 import com.luanvv.jpa.tips.jpahibernatetip.entity.Book;
+import com.luanvv.jpa.tips.jpahibernatetip.entity.Publisher;
 import com.luanvv.jpa.tips.jpahibernatetip.service.BootstrapService;
 import java.io.FileReader;
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class InitData implements CommandLineRunner {
     var file = ResourceUtils.getFile("classpath:books.csv");
     try (var in = new FileReader(file)) {
       var authorMap = new HashMap<String, Author>();
+      var publisherMap = new HashMap<String, Publisher>();
       var records = CSVFormat.DEFAULT
           .builder()
           .setIgnoreHeaderCase(true)
@@ -68,7 +70,7 @@ public class InitData implements CommandLineRunner {
         var ratingsCount = Long.parseLong(record.get("RATINGS_COUNT"));
         var publicationDate = LocalDate
             .parse(record.get("PUBLICATION_DATE"), DateTimeFormatter.ofPattern("M/d/yyyy"));
-        var publisher = record.get("PUBLISHER");
+        var publisher = publisherMap.computeIfAbsent(record.get("PUBLISHER"), name -> new Publisher(name));
         var authorBooks = new HashSet<AuthorBook>(authors.length);
         var book = new Book(title, averageRating, isbn, isbn13, languageCode, numPage, ratingsCount,
             publicationDate, publisher, authorBooks);

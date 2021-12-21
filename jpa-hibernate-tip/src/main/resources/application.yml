@@ -1,5 +1,18 @@
 server:
   port: 0
+init:
+  data:
+    books: false
+test:
+  select-fields:
+    lazy: false
+    join: false
+    arr: false
+  all-fields:
+    select: false
+    join: false
+  array-fields: false
+
 logging:
   level:
     '[root]': INFO
@@ -22,7 +35,7 @@ spring:
     show-sql: 'true'
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml
-    enabled: 'true'
+    enabled: 'false'
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: jpa

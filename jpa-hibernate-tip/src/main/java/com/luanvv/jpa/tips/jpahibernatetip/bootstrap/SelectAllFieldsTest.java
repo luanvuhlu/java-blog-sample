@@ -11,14 +11,15 @@ import org.springframework.stereotype.Component;
 @Order(1)
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "test", name = "all-fields", havingValue = "true")
+@ConditionalOnProperty(prefix = "test", name = "all-fields.select", havingValue = "true")
 public class SelectAllFieldsTest implements CommandLineRunner {
 
   private final BookService bookService;
 
   @Override
   public void run(String... args) throws Exception {
-    // 11127 records
+    // 11127 books
+    // 2293 publishers
     final var allFieldsTime = Measure.run(bookService::findAll);
     System.out.printf("Get all fields cost %d nanoseconds%n", allFieldsTime);
   }

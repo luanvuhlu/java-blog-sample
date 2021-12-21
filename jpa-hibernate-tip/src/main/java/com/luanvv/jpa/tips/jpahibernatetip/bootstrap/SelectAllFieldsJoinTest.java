@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Order(1)
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "test", name = "select-fields.lazy", havingValue = "true")
-public class SelectFieldsTest implements CommandLineRunner {
+@ConditionalOnProperty(prefix = "test", name = "all-fields.join", havingValue = "true")
+public class SelectAllFieldsJoinTest implements CommandLineRunner {
 
   private final BookService bookService;
 
@@ -20,7 +20,7 @@ public class SelectFieldsTest implements CommandLineRunner {
   public void run(String... args) throws Exception {
     // 11127 books
     // 2293 publishers
-    final var titleFieldTime = Measure.run(bookService::findAllTitle);
-    System.out.printf("Get only id and title cost %d nanoseconds%n", titleFieldTime);
+    final var allFieldsTime = Measure.run(bookService::findAllFetchPublisher);
+    System.out.printf("Get all fields cost %d nanoseconds%n", allFieldsTime);
   }
 }

@@ -10,6 +10,8 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -53,9 +55,6 @@ public class Book {
   @Column(name = "PUBLICATION_DATE")
   private LocalDate publicationDate;
 
-  @Column(name = "PUBLISHER")
-  private String publisher;
-
   @CreatedDate
   @Column(name = "CREATED_DATE")
   private LocalDateTime createdDate;
@@ -63,6 +62,10 @@ public class Book {
   @LastModifiedDate
   @Column(name = "LAST_MODIFIED_DATE")
   private LocalDateTime lastModifiedDate;
+
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "PUBLISHER_ID")
+  private Publisher publisher;
 
   @OneToMany(mappedBy = "book")
   private Set<AuthorBook> authors;
@@ -72,9 +75,14 @@ public class Book {
     this.title = title;
   }
 
+  public Book(String id, String title, String publisherId, String publisherName) {
+    this(id, title);
+    this.publisher = new Publisher(publisherId, publisherName);
+  }
+
   public Book(String title, BigDecimal averageRating, String isbn, String isbn13,
       String languageCode, Long numPages, Long ratingCount, LocalDate publicationDate,
-      String publisher, Set<AuthorBook> authors) {
+      Publisher publisher, Set<AuthorBook> authors) {
     this.title = title;
     this.averageRating = averageRating;
     this.isbn = isbn;
@@ -105,7 +113,6 @@ public class Book {
         Objects.equals(numPages, book.numPages) &&
         Objects.equals(ratingCount, book.ratingCount) &&
         Objects.equals(publicationDate, book.publicationDate) &&
-        Objects.equals(publisher, book.publisher) &&
         Objects.equals(createdDate, book.createdDate) &&
         Objects.equals(lastModifiedDate, book.lastModifiedDate);
   }
@@ -113,6 +120,6 @@ public class Book {
   @Override
   public int hashCode() {
     return Objects.hash(id, title, averageRating, isbn, isbn13, languageCode, numPages, ratingCount,
-        publicationDate, publisher, createdDate, lastModifiedDate);
+        publicationDate, createdDate, lastModifiedDate);
   }
 }
