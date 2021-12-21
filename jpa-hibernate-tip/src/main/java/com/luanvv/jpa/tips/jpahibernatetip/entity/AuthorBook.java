@@ -1,5 +1,6 @@
 package com.luanvv.jpa.tips.jpahibernatetip.entity;
 
+import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,4 +36,28 @@ public class AuthorBook {
   @ManyToOne(fetch = FetchType.LAZY)
   private Author author;
 
+  public AuthorBook(Author author, Book book) {
+    this.book = book;
+    this.author = author;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AuthorBook that = (AuthorBook) o;
+    return Objects.equals(id, that.id) &&
+        Objects.equals(createdDate, that.createdDate) &&
+        Objects.equals(book, that.book) &&
+        Objects.equals(author, that.author);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, createdDate, book, author);
+  }
 }

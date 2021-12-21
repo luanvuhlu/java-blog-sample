@@ -16,6 +16,7 @@ public class BootstrapServiceImpl implements BootstrapService {
 
   private final AuthorService authorService;
 
+  @Transactional
   @Override
   public void saveAll(Collection<Book> books, Collection<Author> authors) {
     authorService.saveAll(authors);

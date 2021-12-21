@@ -3,6 +3,7 @@ package com.luanvv.jpa.tips.jpahibernatetip.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -41,7 +42,7 @@ public class Book {
   private String isbn13;
 
   @Column(name = "LANGUAGE_CODE")
-  private String lanuageCode;
+  private String languageCode;
 
   @Column(name = "NUM_PAGES")
   private Long numPages;
@@ -64,7 +65,54 @@ public class Book {
   private LocalDateTime lastModifiedDate;
 
   @OneToMany(mappedBy = "book")
-  @JoinColumn(name = "AUTHORS_ID")
   private Set<AuthorBook> authors;
 
+  public Book(String id, String title) {
+    this.id = id;
+    this.title = title;
+  }
+
+  public Book(String title, BigDecimal averageRating, String isbn, String isbn13,
+      String languageCode, Long numPages, Long ratingCount, LocalDate publicationDate,
+      String publisher, Set<AuthorBook> authors) {
+    this.title = title;
+    this.averageRating = averageRating;
+    this.isbn = isbn;
+    this.isbn13 = isbn13;
+    this.languageCode = languageCode;
+    this.numPages = numPages;
+    this.ratingCount = ratingCount;
+    this.publicationDate = publicationDate;
+    this.publisher = publisher;
+    this.authors = authors;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Book book = (Book) o;
+    return Objects.equals(id, book.id) &&
+        Objects.equals(title, book.title) &&
+        Objects.equals(averageRating, book.averageRating) &&
+        Objects.equals(isbn, book.isbn) &&
+        Objects.equals(isbn13, book.isbn13) &&
+        Objects.equals(languageCode, book.languageCode) &&
+        Objects.equals(numPages, book.numPages) &&
+        Objects.equals(ratingCount, book.ratingCount) &&
+        Objects.equals(publicationDate, book.publicationDate) &&
+        Objects.equals(publisher, book.publisher) &&
+        Objects.equals(createdDate, book.createdDate) &&
+        Objects.equals(lastModifiedDate, book.lastModifiedDate);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, title, averageRating, isbn, isbn13, languageCode, numPages, ratingCount,
+        publicationDate, publisher, createdDate, lastModifiedDate);
+  }
 }
