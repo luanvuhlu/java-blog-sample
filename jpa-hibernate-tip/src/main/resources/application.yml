@@ -11,6 +11,7 @@ test:
   all-fields:
     select: false
     join: false
+  to-string: true
   array-fields: false
 
 logging:

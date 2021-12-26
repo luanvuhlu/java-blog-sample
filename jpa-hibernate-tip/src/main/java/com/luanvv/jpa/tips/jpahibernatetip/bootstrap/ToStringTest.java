@@ -6,24 +6,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 @Order(1)
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "test", name = "all-fields.select", havingValue = "true")
-public class SelectAllFieldsTest implements CommandLineRunner {
+@ConditionalOnProperty(prefix = "test", name = "to-string", havingValue = "true")
+public class ToStringTest implements CommandLineRunner {
 
   private final BookService bookService;
 
   @Override
   public void run(String... args) throws Exception {
-    // 11127 books
-    // 2293 publishers
-//    final var allFieldsTime = Measure.run(bookService::findAll);
-//    final var allFieldsTime = Measure.run(() -> bookService.findAll(PageRequest.of(0, 1)));
-        final var allFieldsTime = Measure.run(() -> bookService.findById("297e4f9c7dde465b017dde4661002d0c"));
-    System.out.printf("Get all fields cost %d nanoseconds%n", allFieldsTime);
+    bookService.findAll().forEach(System.out::println);
   }
 }
