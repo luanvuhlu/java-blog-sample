@@ -69,7 +69,9 @@ public class SimpleExample {
     if (req.requestMethod().equalsIgnoreCase("GET")) {
       return req.queryParams("q");
     } else {
-      return req.body();
+      return req.body()
+          .replaceFirst("hashed=", "")
+          .replaceAll("%0D%0A", "\n");
     }
   }
 

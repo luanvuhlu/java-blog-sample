@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,6 +14,7 @@ public final class Decoder {
 
   private static final int START_NUMBER = 10_000_000;
   private static final int END_NUMBER = 99_999_999;
+//  private static final Map<String, Integer> CACHED_RESULT = MapUtil.createLRUMap(100);
 
   public static String decode(String[] hashedLines) {
     List<byte[]> hashedArray = Arrays.stream(hashedLines)
@@ -36,8 +38,14 @@ public final class Decoder {
   private static void matchHash(int number, Collection<byte[]> hashedArray, Collection<String> result) {
     byte[] currentHashed = hash(number);
     if (hashedArray.stream().anyMatch(arr -> Arrays.equals(arr, currentHashed))) {
-      result.add(number + "," + bytesToHex(currentHashed));
+      String hashedValue = bytesToHex(currentHashed);
+      result.add(createResultLine(number, hashedValue));
+//      CACHED_RESULT.put(hashedValue, number);
     }
+  }
+
+  private static String createResultLine(int number, String hashedValue) {
+    return number + "," + hashedValue;
   }
 
   private static String bytesToHex(byte[] hash) {

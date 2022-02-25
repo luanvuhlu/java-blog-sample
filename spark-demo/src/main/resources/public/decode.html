@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SHA256 Decode</title>
+  <style>
+    textarea {
+      width: 700px;
+      height: 150px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>SHA 256 Decode</h2>
+
+<form action="/api/sha256" method="post">
+  <label for="hashed">Mã hashed:</label>
+  <p>
+    <textarea id="hashed" name="hashed" placeholder="Nhập nhiều dòng được"></textarea>
+  </p>
+  <p>
+    <input type="submit" value="Giải mã"/>
+  </p>
+</form>
+
+<p style="color: red">Kết quả sẽ ra trong vài phút. Tối đa 5 phút.</p>
+<p style="color: red">Đừng có click nhiều lần chi cho mất công.</p>
+</body>
+</html>
