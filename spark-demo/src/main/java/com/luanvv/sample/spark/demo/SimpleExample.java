@@ -60,7 +60,8 @@ public class SimpleExample {
       return halt(400, "Invalid hashedLines");
     }
     res.type("text/csv");
-    String[] hashedLines = body.split("\n|;");
+    String[] hashedLines = body.replaceAll("[^0-9a-zA-Z\n;]", "")
+        .split("\n|;");
     return Decoder.decode(hashedLines);
   }
 

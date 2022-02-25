@@ -16,6 +16,7 @@ public final class Decoder {
 
   public static String decode(String[] hashedLines) {
     List<byte[]> hashedArray = Arrays.stream(hashedLines)
+        .filter(str -> str.length() != 64) // A valid SHA256 hashed contains 64 characters
         .map(Decoder::hexStringToByteArray)
         .collect(Collectors.toList());
     List<String> result = new ArrayList<>();
